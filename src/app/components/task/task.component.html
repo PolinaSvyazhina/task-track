@@ -1,0 +1,12 @@
+@if (taskList()) {
+  @for (task of taskList(); track task.id){
+    <div>
+      <span>{{ task.title }}</span>
+      <span>{{ task.status }}</span>
+      <span>{{ task.priority }}</span>
+      <span>{{ task.assigneeId }}</span>
+    </div>
+  }
+} @else {
+  <div>Задач пока нет</div>
+}

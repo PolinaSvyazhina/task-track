@@ -1,3 +1,8 @@
 ﻿<tui-root>
-  <router-outlet />
+  <header>Task Tracker</header>
+  <body>
+  <task-component [taskList]="tasks" (changeStatus)="updateTaskStatus($event)"/>
+    <router-outlet />
+  </body>
+  <footer>footer</footer>
 </tui-root>
