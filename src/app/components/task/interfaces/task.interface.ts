@@ -3,11 +3,11 @@ export type taskPriority = 'low' | 'normal' | 'high';
 
 export interface Task {
   id: string;
-  projectId: string;
+  projectId?: string;
   title: string;
   description: string;
-  status: taskStatus;
+  status?: taskStatus;
   priority: taskPriority;
-  assigneeId: string | null;
-  dueDate: string | null;
+  assigneeId?: string | null;
+  dueDate?: string | null;
 }

@@ -1,21 +1,27 @@
 import { Component, input, InputSignal, output, OutputEmitterRef } from '@angular/core';
-import { TuiRadioComponent } from '@taiga-ui/core';
-import { Task } from './interfaces/task.interface';
+import { FormsModule } from '@angular/forms';
+import { TuiRadio } from '@taiga-ui/core';
+import { Task, taskStatus } from './interfaces/task.interface';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'task-component',
   templateUrl: 'task.component.html',
   imports: [
+    FormsModule,
+    TuiRadio,
+    DatePipe,
   ],
-  styleUrls: ['task.component.css']
+  styleUrls: ['task.component.less']
 })
 
 export class TaskComponent {
-  public taskList: InputSignal<Task[] | undefined> = input();
-  public changeStatus: OutputEmitterRef<any> = output()
+  public readonly taskStatuses: readonly taskStatus[] = ['todo', 'in-progress', 'done'];
+  public task: InputSignal<Task | undefined> = input();
+  public changeStatus: OutputEmitterRef<{ id: string; status: taskStatus }> = output();
 
 
-  public changeTaskStatus(id: string, status: string): void {
+  public changeTaskStatus(id: string, status: taskStatus): void {
     const data = {id, status};
     this.changeStatus.emit(data);
   }

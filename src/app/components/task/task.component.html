@@ -1,12 +1,34 @@
-@if (taskList()) {
-  @for (task of taskList(); track task.id){
-    <div>
-      <span>{{ task.title }}</span>
-      <span>{{ task.status }}</span>
-      <span>{{ task.priority }}</span>
-      <span>{{ task.assigneeId }}</span>
-    </div>
-  }
+@if (task(); as task) {
+    <section>
+      <div class="task">
+        <span>{{ task.title }}</span>
+        <fieldset>
+          <legend>Статус задачи</legend>
+          @for (status of taskStatuses; track status) {
+            <label>
+              <input
+                type="radio"
+                tuiRadio
+                [name]="'task-status-' + task.id"
+                [value]="status"
+                [ngModel]="task.status"
+                [ngModelOptions]="{ standalone: true }"
+                (ngModelChange)="changeTaskStatus(task.id, $event)"
+              />
+              {{ status }}
+            </label>
+          }
+        </fieldset>
+        <span> Приоритет: {{ task.priority }}</span>
+        <span>Исполнитель : {{ task.assigneeId ?? 'Не назначен' }} </span>
+        @if (task.dueDate) {
+          <p>Срок: {{ task.dueDate | date:'dd.MM.yyyy' }}</p>
+        } @else {
+          <p>Срок не задан</p>
+        }
+      </div>
+    </section>
+
 } @else {
   <div>Задач пока нет</div>
 }

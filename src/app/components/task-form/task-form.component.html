@@ -1,0 +1,25 @@
+<input
+  placeholder="title"
+  tuiInput
+  [formControl]="title"
+
+/>
+<input
+  placeholder="description"
+  tuiInput
+  [formControl]="description"
+/>
+<input
+  placeholder="priority"
+  tuiInput
+  [formControl]="priority"
+/>
+
+<button
+  size="s"
+  tuiButton
+  type="button"
+  (click)="addTask()"
+>
+  Добавить задачу
+</button>
