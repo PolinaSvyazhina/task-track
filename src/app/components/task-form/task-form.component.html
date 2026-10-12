@@ -15,6 +15,28 @@
   [formControl]="priority"
 />
 
+<input
+  placeholder="assigneeId"
+  tuiInput
+  [formControl]="assigneeId"
+/>
+
+  <input
+    tuiInputDate
+    [formControl]="dueDate"
+  />
+  <tui-calendar *tuiDropdown />
+
+<input
+  placeholder="subtasks"
+  tuiInput
+  [formControl]="subtasks"
+/>
+
+<button type="button" (click)="addSubTask()">
+  Добавить подзадачу
+</button>
+
 <button
   size="s"
   tuiButton

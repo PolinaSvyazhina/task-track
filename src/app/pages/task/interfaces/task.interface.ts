@@ -10,4 +10,5 @@ export interface Task {
   priority: taskPriority;
   assigneeId?: string | null;
   dueDate?: string | null;
+  subtasks: []
 }
