@@ -1,0 +1,10 @@
+<div>
+  <a routerLink="/task-list">← К списку задач</a>
+
+  @if (task()) {
+    <task-component [task]="task()" (changeStatus)="changeStatus($event)"></task-component>
+  } @else {
+    <h2>Задача не найдена</h2>
+    <p>Задачи с идентификатором «{{ taskId() }}» нет в списке.</p>
+  }
+</div>

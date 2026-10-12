@@ -1,0 +1,26 @@
+@if (loader()) {
+  <p>Загрузка</p>
+} @else if (error()){
+  <p role="alert">{{ error() }}</p>
+  <button type="button" (click)="retry()">Повторить</button>
+} @else {
+<section>
+  <h2>Задачи команды</h2>
+  @for (task of taskList(); track task.id) {
+    <button type="button" (click)="navigateToTask(task.id)">Открыть задачу</button>
+      <task-component (changeStatus)="onStatusChange($event)" [task]="task" />
+  } @empty {
+    <p>Задач пока нет</p>
+  }
+  <footer>
+    <button
+      size="s"
+      tuiButton
+      type="button"
+      (click)="addExampleTask()"
+    >
+      Добавить задачу
+    </button>
+  </footer>
+</section>
+}

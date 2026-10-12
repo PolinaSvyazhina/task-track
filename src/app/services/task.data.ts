@@ -1,4 +1,4 @@
-import { Task } from '../components/task/interfaces/task.interface';
+import { Task } from '../pages/task/interfaces/task.interface';
 
 export const INITIAL_TASKS: Task[] = [
   {

@@ -1,8 +1,8 @@
 import { Component, inject } from '@angular/core';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, ReactiveFormsModule, ValidatorFn } from '@angular/forms';
 import { TuiButton, TuiInputDirective } from '@taiga-ui/core';
 import { TaskService } from '../../services/task.service';
-import { Task, taskPriority } from '../task/interfaces/task.interface';
+import { Task, taskPriority } from '../../pages/task/interfaces/task.interface';
 
 @Component({
   selector: 'task-form',
@@ -17,7 +17,6 @@ export class TaskFormComponent {
   private readonly taskService: TaskService = inject(TaskService);
     public title = new FormControl('', {
       nonNullable: true,
-
     })
   public description =  new FormControl('', {
       nonNullable: true,

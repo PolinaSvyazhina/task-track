@@ -6,16 +6,16 @@ import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'task-component',
-  templateUrl: 'task.component.html',
+  templateUrl: 'task.page.html',
   imports: [
     FormsModule,
     TuiRadio,
     DatePipe,
   ],
-  styleUrls: ['task.component.less']
+  styleUrls: ['task.page.less']
 })
 
-export class TaskComponent {
+export class TaskPage {
   public readonly taskStatuses: readonly taskStatus[] = ['todo', 'in-progress', 'done'];
   public task: InputSignal<Task | undefined> = input();
   public changeStatus: OutputEmitterRef<{ id: string; status: taskStatus }> = output();
