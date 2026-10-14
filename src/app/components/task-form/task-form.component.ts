@@ -69,11 +69,11 @@ export class TaskFormComponent {
       }
       this.taskService.addTask(data);
 
-      this.resetControl();
+      this.resetControls();
       // void this.router.navigate(['/task-list']);
   }
 
-  private resetControl(): void {
+  protected resetControls(): void {
       this.title.reset();
       this.description.reset();
       this.priority.reset();

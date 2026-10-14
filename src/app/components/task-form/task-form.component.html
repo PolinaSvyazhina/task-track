@@ -92,9 +92,8 @@
     </section>
 
     <footer class="task-form__actions">
-      <p class="task-form__hint">* Обязательное поле</p>
       <div class="task-form__buttons">
-        <a tuiButton appearance="secondary" size="m" routerLink="/task-list">Отмена</a>
+        <button tuiButton type="submit" size="m" (click)="resetControls()">Отмена</button>
         <button tuiButton size="m" type="submit" [disabled]="title.invalid">Создать задачу</button>
       </div>
     </footer>
