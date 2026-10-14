@@ -64,14 +64,30 @@
     <section class="task-form__section task-form__subtasks" aria-labelledby="task-subtasks-title">
       <h3 id="task-subtasks-title">Подзадачи <span class="task-form__optional">необязательно</span></h3>
       <p class="task-form__hint">Разбейте задачу на небольшие шаги.</p>
+      @if (subtasks().length) {
+        <ul class="task-form__subtask-list" aria-label="Подзадачи">
+          @for (subtask of subtasks(); track $index) {
+            <li class="task-form__subtask-item">
+              <span>{{ subtask }}</span>
+              <button class="task-form__subtask-remove" type="button"
+                [attr.aria-label]="'Удалить подзадачу: ' + subtask"
+                (click)="removeSubTask($index)">
+                <span aria-hidden="true">×</span>
+              </button>
+            </li>
+          }
+        </ul>
+      }
       <div class="task-form__subtask-row">
         <div class="task-form__field">
           <label for="task-subtask">Название подзадачи</label>
           <tui-textfield>
-            <input id="task-subtask" tuiInput [formControl]="subtasks" placeholder="Что нужно сделать первым?" />
+            <input id="task-subtask" tuiInput [formControl]="newSubtask" placeholder="Что нужно сделать первым?"
+              (keydown.enter)="$event.preventDefault(); addSubTask()" />
           </tui-textfield>
         </div>
-        <button tuiButton appearance="secondary" size="m" type="button" (click)="addSubTask()">Добавить</button>
+        <button tuiButton appearance="secondary" size="m" type="button"
+          [disabled]="!newSubtask.value.trim()" (click)="addSubTask()">Добавить</button>
       </div>
     </section>
 

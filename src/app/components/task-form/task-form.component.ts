@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TuiButton, TuiInput } from '@taiga-ui/core';
 import { TuiDay } from '@taiga-ui/cdk';
@@ -39,23 +39,22 @@ export class TaskFormComponent {
       nonNullable: true,
     })
   public dueDate = new FormControl<TuiDay | null>(null);
-  public subtasks =  new FormControl<any>([], {
-      nonNullable: true,
-    })
+  public readonly subtasks = signal<string[]>([]);
+  public readonly newSubtask = new FormControl('', { nonNullable: true });
 
-  public addSubTask = () => {
-      this.subtasks.setValue(this.subtasks.value)
-      if (this.subtasks.invalid) {
-        return;
-      }
+  public addSubTask(): void {
+    const title = this.newSubtask.value.trim();
 
-    this.subtasks.value.push(
-        new FormControl(this.subtasks.value, { nonNullable: true }),
-      );
-    this.subtasks.markAsDirty();
+    if (!title) {
+      return;
+    }
 
-    this.subtasks.reset();
+    this.subtasks.update(subtasks => [...subtasks, title]);
+    this.newSubtask.reset();
+  }
 
+  public removeSubTask(index: number): void {
+    this.subtasks.update(subtasks => subtasks.filter((_, taskIndex) => taskIndex !== index));
   }
   public addTask(): void {
       const data: Task = {
@@ -66,7 +65,7 @@ export class TaskFormComponent {
         dueDate: this.dueDate.value?.toJSON() ?? null,
         assigneeId: this.assigneeId.value,
         status: 'todo',
-        subtasks: this.subtasks.value
+        subtasks: [...this.subtasks()]
       }
       this.taskService.addTask(data);
 
@@ -80,6 +79,7 @@ export class TaskFormComponent {
       this.priority.reset();
       this.assigneeId.reset();
       this.dueDate.reset();
-      this.subtasks.reset();
+      this.subtasks.set([]);
+      this.newSubtask.reset();
   }
 }
