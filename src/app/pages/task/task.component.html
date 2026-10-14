@@ -1,0 +1,59 @@
+@if (task(); as task) {
+  <article class="task" [attr.aria-labelledby]="'task-title-' + task.id">
+    <header class="task__header">
+      <span class="task__eyebrow">Задача</span>
+      <div class="task__badges">
+        <span class="task__badge" [attr.data-status]="task.status ?? 'todo'">
+          {{ statusLabels[task.status ?? 'todo'] }}
+        </span>
+        <span class="task__badge task__priority" [attr.data-priority]="task.priority">
+          {{ priorityLabels[task.priority] }} приоритет
+        </span>
+      </div>
+    </header>
+
+    <h3 class="task__title" [id]="'task-title-' + task.id">{{ task.title }}</h3>
+    @if (task.description) {
+      <p class="task__description">{{ task.description }}</p>
+    }
+
+    <dl class="task__details">
+      <div class="task__detail">
+        <dt>Исполнитель</dt>
+        <dd>{{ task.assigneeId ?? 'Не назначен' }}</dd>
+      </div>
+      <div class="task__detail">
+        <dt>Срок выполнения</dt>
+        <dd>
+          @if (task.dueDate) {
+            <time [attr.datetime]="task.dueDate">{{ task.dueDate | date:'dd.MM.yyyy' }}</time>
+          } @else {
+            Не задан
+          }
+        </dd>
+      </div>
+    </dl>
+
+    <fieldset class="task__statuses">
+      <legend>Статус задачи</legend>
+      <div class="task__status-options">
+        @for (status of taskStatuses; track status) {
+          <label class="task__status-option" [class.task__status-option_selected]="(task.status ?? 'todo') === status">
+            <input
+              type="radio"
+              tuiRadio
+              [name]="'task-status-' + task.id"
+              [value]="status"
+              [ngModel]="task.status ?? 'todo'"
+              [ngModelOptions]="{ standalone: true }"
+              (ngModelChange)="changeTaskStatus(task.id, $event)"
+            />
+            {{ statusLabels[status] }}
+          </label>
+        }
+      </div>
+    </fieldset>
+  </article>
+} @else {
+  <p class="task__empty">Задач пока нет</p>
+}

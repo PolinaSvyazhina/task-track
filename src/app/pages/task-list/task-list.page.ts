@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { TuiButton } from '@taiga-ui/core';
-import { TaskPage } from '../task/task.page';
+import { TaskComponent } from '../task/task.component';
 import { taskStatus } from '../task/interfaces/task.interface';
 import { TaskService } from '../../services/task.service';
 import { Router } from '@angular/router';
@@ -8,7 +8,8 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'task-list',
   templateUrl: 'task-list.page.html',
-  imports: [TaskPage, TuiButton],
+  styleUrls: ['task-list.page.scss'],
+  imports: [TaskComponent, TuiButton],
 })
 
 export class TaskListPage {
@@ -23,11 +24,11 @@ export class TaskListPage {
   }
 
   public addExampleTask(): void {
-   this.router.navigate(['/task-list/task-form'])
+    void this.router.navigate(['/task-list', 'task-form']);
   }
 
   public navigateToTask(id: string): void {
-    this.router.navigate(['/task-list/tasks', id]);
+    void this.router.navigate(['/task-list', 'tasks', id]);
   }
   public retry(): void {
     if (this.loader()) {

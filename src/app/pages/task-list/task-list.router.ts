@@ -8,6 +8,7 @@ export const TASK_List_ROUTER: Routes = [
   {
     path: '',
     component: TaskListPage,
+    pathMatch: 'full',
   },
   {
     path: 'tasks/:id',

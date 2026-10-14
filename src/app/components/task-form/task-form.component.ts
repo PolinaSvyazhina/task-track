@@ -1,24 +1,27 @@
 import { Component, inject } from '@angular/core';
-import { FormControl, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
-import { TuiButton, TuiCalendar, TuiDropdownContent, TuiInputDirective } from '@taiga-ui/core';
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
+import { TuiButton, TuiInput } from '@taiga-ui/core';
+import { TuiDay } from '@taiga-ui/cdk';
+import { Router, RouterLink } from '@angular/router';
 import { TaskService } from '../../services/task.service';
 import { Task, taskPriority } from '../../pages/task/interfaces/task.interface';
-import { TuiInputDateDirective } from '@taiga-ui/kit';
+import { TuiInputDate } from '@taiga-ui/kit';
 
 @Component({
   selector: 'task-form',
   templateUrl: 'task-form.component.html',
+  styleUrl: 'task-form.component.scss',
   imports: [
-    TuiInputDirective,
+    TuiInput,
     ReactiveFormsModule,
     TuiButton,
-    TuiCalendar,
-    TuiDropdownContent,
-    TuiInputDateDirective
+    TuiInputDate,
+    RouterLink
   ]
 })
 export class TaskFormComponent {
   private readonly taskService: TaskService = inject(TaskService);
+  private readonly router = inject(Router);
     public title = new FormControl('', {
       nonNullable: true,
       validators: [
@@ -35,9 +38,7 @@ export class TaskFormComponent {
   public assigneeId =  new FormControl('', {
       nonNullable: true,
     })
-  public dueDate =  new FormControl('', {
-      nonNullable: true,
-    })
+  public dueDate = new FormControl<TuiDay | null>(null);
   public subtasks =  new FormControl<any>([], {
       nonNullable: true,
     })
@@ -62,7 +63,7 @@ export class TaskFormComponent {
         title: this.title.value,
         description: this.description.value,
         priority: this.priority.value,
-        dueDate: this.dueDate.value,
+        dueDate: this.dueDate.value?.toJSON() ?? null,
         assigneeId: this.assigneeId.value,
         status: 'todo',
         subtasks: this.subtasks.value
@@ -70,6 +71,7 @@ export class TaskFormComponent {
       this.taskService.addTask(data);
 
       this.resetControl();
+      // void this.router.navigate(['/task-list']);
   }
 
   private resetControl(): void {

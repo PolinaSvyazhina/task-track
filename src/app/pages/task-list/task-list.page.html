@@ -1,26 +1,66 @@
-@if (loader()) {
-  <p>Загрузка</p>
-} @else if (error()){
-  <p role="alert">{{ error() }}</p>
-  <button type="button" (click)="retry()">Повторить</button>
-} @else {
-<section>
-  <h2>Задачи команды</h2>
-  @for (task of taskList(); track task.id) {
-    <button type="button" (click)="navigateToTask(task.id)">Открыть задачу</button>
-      <task-component (changeStatus)="onStatusChange($event)" [task]="task" />
-  } @empty {
-    <p>Задач пока нет</p>
-  }
-  <footer>
-    <button
-      size="s"
-      tuiButton
-      type="button"
-      (click)="addExampleTask()"
-    >
+<section class="task-list" aria-labelledby="task-list-title" [attr.aria-busy]="loader()">
+  <header class="task-list__header">
+    <div>
+      <p class="task-list__eyebrow">Рабочее пространство</p>
+      <div class="task-list__heading">
+        <h2 id="task-list-title">Задачи команды</h2>
+        @if (!loader() && !error()) {
+          <span class="task-list__count" aria-label="Количество задач">{{ taskList().length }}</span>
+        }
+      </div>
+      <p class="task-list__description">Следите за сроками и обновляйте статус задач.</p>
+    </div>
+    <button tuiButton size="m" type="button" class="task-list__add" (click)="addExampleTask()">
+      <span aria-hidden="true">+</span>
       Добавить задачу
     </button>
-  </footer>
+  </header>
+
+  @if (loader()) {
+    <div class="task-list__state" role="status">
+      <span class="task-list__spinner" aria-hidden="true"></span>
+      <h3>Загружаем задачи</h3>
+      <p>Список появится через несколько секунд.</p>
+    </div>
+  } @else if (error(); as message) {
+    <div class="task-list__state task-list__state_error">
+      <div role="alert">
+        <h3>Не удалось загрузить задачи</h3>
+        <p>{{ message }}</p>
+      </div>
+      <button tuiButton size="s" appearance="secondary" type="button" (click)="retry()">
+        Повторить загрузку
+      </button>
+    </div>
+  } @else {
+    @if (taskList().length) {
+      <ul class="task-list__grid">
+        @for (task of taskList(); track task.id) {
+          <li class="task-list__item">
+            <task-component (changeStatus)="onStatusChange($event)" [task]="task" />
+            <button
+              tuiButton
+              size="s"
+              appearance="flat"
+              type="button"
+              class="task-list__open"
+              [attr.aria-label]="'Открыть задачу: ' + task.title"
+              (click)="navigateToTask(task.id)"
+            >
+              Открыть задачу <span aria-hidden="true">→</span>
+            </button>
+          </li>
+        }
+      </ul>
+    } @else {
+      <div class="task-list__state">
+        <span class="task-list__empty-icon" aria-hidden="true">+</span>
+        <h3>Задач пока нет</h3>
+        <p>Добавьте первую задачу, чтобы начать работу команды.</p>
+        <button tuiButton size="m" type="button" (click)="addExampleTask()">
+          Создать первую задачу
+        </button>
+      </div>
+    }
+  }
 </section>
-}
