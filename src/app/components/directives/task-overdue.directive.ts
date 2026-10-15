@@ -22,7 +22,7 @@ export class TaskOverdueDirective {
     }
 
     if (endDate) {
-      return currentDate > endDate;
+      return currentDate > endDate && this.taskComponent.task()?.status !== 'done';
     }
 
     return false;

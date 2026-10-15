@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { TuiButton } from '@taiga-ui/core';
+import { TuiButton, TuiInputDirective, TuiTextfieldComponent, TuiTextfieldOptionsDirective } from '@taiga-ui/core';
 import { TaskComponent } from '../../components/task/task.component';
 import { taskStatus } from '../../components/task/interfaces/task.interface';
 import { TaskService } from '../../services/task.service';
@@ -10,7 +10,7 @@ import { TaskSummaryComponent } from '../../components/task-summary/task-summary
   selector: 'task-list',
   templateUrl: 'task-list.page.html',
   styleUrls: ['task-list.page.scss'],
-  imports: [TaskComponent, TuiButton, TaskSummaryComponent],
+  imports: [TaskComponent, TuiButton, TaskSummaryComponent, TuiTextfieldComponent, TuiInputDirective, TuiTextfieldOptionsDirective],
 })
 
 export class TaskListPage implements OnInit {
