@@ -1,5 +1,5 @@
 @if (task(); as task) {
-  <article class="task" [attr.aria-labelledby]="'task-title-' + task.id">
+  <article  class="task" [attr.aria-labelledby]="'task-title-' + task.id">
     <header class="task__header">
       <span class="task__eyebrow">Задача</span>
       <div class="task__badges">
@@ -9,7 +9,11 @@
         <span class="task__badge task__priority" [attr.data-priority]="task.priority">
           {{ priorityLabels[task.priority] }} приоритет
         </span>
-
+        <div appOverdue #over='appOverdue'>
+          @if (over.isOverdue()) {
+            <p>Просрочена</p>
+          }
+        </div>
         <button type="button" class="task__delete" [attr.aria-label]="'Удалить задачу: ' + task.title" (click)="deleteTask(task.id)">×</button>
       </div>
     </header>

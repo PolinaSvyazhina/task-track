@@ -4,6 +4,7 @@ import { TuiRadio } from '@taiga-ui/core';
 import { Task, taskPriority, taskStatus } from './interfaces/task.interface';
 import { DatePipe } from '@angular/common';
 import { CustomStatusPipe } from '../../pipes/custom-status.pipe';
+import { TaskOverdueDirective } from '../directives/task-overdue.directive';
 
 @Component({
   selector: 'task-component',
@@ -13,13 +14,13 @@ import { CustomStatusPipe } from '../../pipes/custom-status.pipe';
     TuiRadio,
     DatePipe,
     CustomStatusPipe,
+    TaskOverdueDirective
   ],
-  styleUrls: ['task.scss']
+  styleUrls: ['task.scss'],
 })
 
 export class TaskComponent {
   public readonly taskStatuses: readonly taskStatus[] = ['todo', 'in-progress', 'done'];
-
   public readonly priorityLabels: Record<taskPriority, string> = {
     low: 'Низкий',
     normal: 'Обычный',
