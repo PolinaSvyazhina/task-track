@@ -1,23 +1,29 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { TuiButton } from '@taiga-ui/core';
 import { TaskComponent } from '../task/task.component';
 import { taskStatus } from '../task/interfaces/task.interface';
 import { TaskService } from '../../services/task.service';
 import { Router } from '@angular/router';
+import { TaskSummaryComponent } from '../../components/task-summary/task-summary.component';
 
 @Component({
   selector: 'task-list',
   templateUrl: 'task-list.page.html',
   styleUrls: ['task-list.page.scss'],
-  imports: [TaskComponent, TuiButton],
+  imports: [TaskComponent, TuiButton, TaskSummaryComponent],
 })
 
-export class TaskListPage {
+export class TaskListPage implements OnInit {
   private readonly taskService: TaskService = inject(TaskService);
   private router: Router = inject(Router);
-  public readonly taskList = this.taskService.taskList;
+  public readonly taskList =  this.taskService.taskList;
+
   public readonly loader = this.taskService.loading;
   public readonly error = this.taskService.error;
+
+  public ngOnInit(): void {
+    this.retry();
+  }
 
   public onStatusChange(event: { id: string; status: taskStatus }): void {
     this.taskService.changeStatus(event.id, event.status);
@@ -25,6 +31,10 @@ export class TaskListPage {
 
   public addExampleTask(): void {
     void this.router.navigate(['/task-list', 'task-form']);
+  }
+
+  public onDeletedCard(id: string): void {
+    this.taskService.deleteTask(id);
   }
 
   public navigateToTask(id: string): void {

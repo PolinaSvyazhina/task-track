@@ -1,6 +1,20 @@
-<section>
-  <h2>Сводка</h2>
+<section class="task-summary" aria-label="Сводка по задачам">
+  <h3 class="task-summary__title">Сводка по задачам</h3>
 
-  <p>Всего задач: {{ tasks().length }}</p>
-  <p>Незавершённых: {{ unfinishedCount() }}</p>
+  <dl class="task-summary__stats">
+    <div class="task-summary__stat">
+      <dt class="task-summary__label">
+        <span class="task-summary__dot" aria-hidden="true"></span>
+        Всего задач
+      </dt>
+      <dd class="task-summary__value">{{ tasks().length }}</dd>
+    </div>
+    <div class="task-summary__stat task-summary__stat_unfinished">
+      <dt class="task-summary__label">
+        <span class="task-summary__dot" aria-hidden="true"></span>
+        Незавершённые
+      </dt>
+      <dd class="task-summary__value">{{ unfinishedCount() }}</dd>
+    </div>
+  </dl>
 </section>

@@ -163,6 +163,31 @@
     padding: 1.5rem;
     color: var(--tui-text-secondary, #737987);
   }
+
+  &__delete {
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0;
+    border: 0;
+    border-radius: 0.625rem;
+    background: transparent;
+    color: var(--tui-text-secondary, #737987);
+    font: inherit;
+    font-size: 1.5rem;
+    cursor: pointer;
+
+    &:hover {
+      background: var(--tui-background-neutral-1, #f7f8fa);
+      color: var(--tui-text-negative, #b23838);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--tui-background-accent-1, #526ed3);
+      outline-offset: 2px;
+    }
+  }
 }
 
 @media (max-width: 480px) {

@@ -27,6 +27,7 @@ export class TaskDetailsComponent {
   public task = computed(() => {
     const id = this.taskId();
 
+
     return this.taskService.taskList().find((task: Task) => task.id === id);
   })
 

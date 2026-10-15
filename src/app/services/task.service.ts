@@ -1,7 +1,8 @@
-import { computed, inject, Injectable, Signal, signal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { Task, taskStatus } from '../pages/task/interfaces/task.interface';
 import { ApiService } from './api.service';
-import { finalize, tap } from 'rxjs';
+import { catchError, finalize, of, tap } from 'rxjs';
+import { tasks } from './tasks';
 
 @Injectable({ providedIn: 'root' })
 export class TaskService {
@@ -11,6 +12,7 @@ private apiService: ApiService = inject(ApiService);
     signal<readonly Readonly<Task>[]>([]);
   private readonly loadingState = signal(false);
   private readonly errorState = signal<string | null>(null);
+  private taskListMock = tasks;
 
   readonly taskList = this.tasksState.asReadonly();
   readonly loading = this.loadingState.asReadonly();
@@ -22,13 +24,9 @@ private apiService: ApiService = inject(ApiService);
 
     return this.apiService.getTasks()
       .pipe(
-        tap({
-          next: (tasks) => {
-            this.tasksState.set(tasks);
-          },
-          error: error => {
-            this.errorState.set('Не удалось загрузить задачи');
-          }
+        catchError(() => of(this.taskListMock)),
+        tap(tasks => {
+          this.tasksState.set(tasks ?? this.taskListMock);
         }),
         finalize(() => {
           this.loadingState.set(false);
@@ -46,6 +44,10 @@ private apiService: ApiService = inject(ApiService);
       ...tasks,
       { ...task },
     ]);
+  }
+
+  public deleteTask(id: string): void {
+    this.tasksState.update(tasks => tasks.filter(task => task.id !== id));
   }
 
   public changeStatus(id: string, status: taskStatus): void {

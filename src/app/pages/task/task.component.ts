@@ -12,7 +12,7 @@ import { DatePipe } from '@angular/common';
     TuiRadio,
     DatePipe,
   ],
-  styleUrls: ['task.css']
+  styleUrls: ['task.scss']
 })
 
 export class TaskComponent {
@@ -29,10 +29,15 @@ export class TaskComponent {
   };
   public task: InputSignal<Task | undefined> = input();
   public changeStatus: OutputEmitterRef<{ id: string; status: taskStatus }> = output();
+  public deletedCard: OutputEmitterRef<string> = output();
 
 
   public changeTaskStatus(id: string, status: taskStatus): void {
     const data = {id, status};
     this.changeStatus.emit(data);
+  }
+
+  public deleteTask(id: string): void {
+    this.deletedCard.emit(id);
   }
 }

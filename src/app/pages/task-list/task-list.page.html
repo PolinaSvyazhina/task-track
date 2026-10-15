@@ -4,9 +4,6 @@
       <p class="task-list__eyebrow">Рабочее пространство</p>
       <div class="task-list__heading">
         <h2 id="task-list-title">Задачи команды</h2>
-        @if (!loader() && !error()) {
-          <span class="task-list__count" aria-label="Количество задач">{{ taskList().length }}</span>
-        }
       </div>
       <p class="task-list__description">Следите за сроками и обновляйте статус задач.</p>
     </div>
@@ -14,6 +11,7 @@
       <span aria-hidden="true">+</span>
       Добавить задачу
     </button>
+    <task-summary/>
   </header>
 
   @if (loader()) {
@@ -37,7 +35,7 @@
       <ul class="task-list__grid">
         @for (task of taskList(); track task.id) {
           <li class="task-list__item">
-            <task-component (changeStatus)="onStatusChange($event)" [task]="task" />
+            <task-component (deletedCard) ="onDeletedCard($event)" (changeStatus)="onStatusChange($event)" [task]="task" />
             <button
               tuiButton
               size="s"

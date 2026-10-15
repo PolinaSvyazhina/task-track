@@ -9,6 +9,8 @@
         <span class="task__badge task__priority" [attr.data-priority]="task.priority">
           {{ priorityLabels[task.priority] }} приоритет
         </span>
+
+        <button type="button" class="task__delete" [attr.aria-label]="'Удалить задачу: ' + task.title" (click)="deleteTask(task.id)">×</button>
       </div>
     </header>
 
