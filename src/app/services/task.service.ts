@@ -13,12 +13,17 @@ private apiService: ApiService = inject(ApiService);
   private readonly loadingState = signal(false);
   private readonly errorState = signal<string | null>(null);
   private taskListMock = tasks;
+  private loaded = false;
 
   readonly taskList = this.tasksState.asReadonly();
   readonly loading = this.loadingState.asReadonly();
   readonly error = this.errorState.asReadonly();
 
-  public getTasks(){
+  public getTasks(force = false){
+    if (this.loaded && !force) {
+      return of(this.tasksState());
+    }
+
     this.loadingState.set(true);
     this.errorState.set(null);
 
@@ -27,6 +32,7 @@ private apiService: ApiService = inject(ApiService);
         catchError(() => of(this.taskListMock)),
         tap(tasks => {
           this.tasksState.set(tasks ?? this.taskListMock);
+          this.loaded = true;
         }),
         finalize(() => {
           this.loadingState.set(false);

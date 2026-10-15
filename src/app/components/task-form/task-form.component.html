@@ -6,7 +6,7 @@
     <p>Опишите результат и укажите детали, чтобы команда могла приступить к работе.</p>
   </header>
 
-  <form class="task-form__card" (ngSubmit)="addTask()">
+  <div class="task-form__card">
     <section class="task-form__section task-form__main" aria-labelledby="task-main-title">
       <h3 id="task-main-title">Основная информация</h3>
       <div class="task-form__field">
@@ -94,8 +94,8 @@
     <footer class="task-form__actions">
       <div class="task-form__buttons">
         <button tuiButton type="button" size="m" (click)="resetControls()">Отмена</button>
-        <button tuiButton size="m" type="submit" [disabled]="title.invalid">Создать задачу</button>
+        <button tuiButton size="m" type="button" (click)="addTask()" [disabled]="title.invalid || loading()">Создать задачу</button>
       </div>
     </footer>
-  </form>
+  </div>
 </section>

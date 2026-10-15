@@ -22,7 +22,7 @@ export class TaskListPage implements OnInit {
   public readonly error = this.taskService.error;
 
   public ngOnInit(): void {
-    this.retry();
+    this.taskService.getTasks().subscribe({ error: () => {} });
   }
 
   public onStatusChange(event: { id: string; status: taskStatus }): void {
@@ -44,7 +44,7 @@ export class TaskListPage implements OnInit {
     if (this.loader()) {
       return;
     }
-    this.taskService.getTasks().subscribe({ error: () => {} });
+    this.taskService.getTasks(true).subscribe({ error: () => {} });
   }
 
 }

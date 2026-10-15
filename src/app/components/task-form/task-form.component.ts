@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TuiButton, TuiInput } from '@taiga-ui/core';
 import { TuiDay } from '@taiga-ui/cdk';
@@ -19,9 +19,16 @@ import { TuiInputDate } from '@taiga-ui/kit';
     RouterLink
   ]
 })
-export class TaskFormComponent {
+export class TaskFormComponent implements OnInit {
   private readonly taskService: TaskService = inject(TaskService);
   private readonly router = inject(Router);
+  public readonly loading = this.taskService.loading;
+
+  public ngOnInit(): void {
+    if (!this.loading()) {
+      this.taskService.getTasks().subscribe({ error: () => {} });
+    }
+  }
     public title = new FormControl('', {
       nonNullable: true,
       validators: [
@@ -57,6 +64,11 @@ export class TaskFormComponent {
     this.subtasks.update(subtasks => subtasks.filter((_, taskIndex) => taskIndex !== index));
   }
   public addTask(): void {
+      if (this.loading() || this.title.invalid) {
+        this.title.markAsTouched();
+        return;
+      }
+
       const data: Task = {
         id: crypto.randomUUID(),
         title: this.title.value,
@@ -70,7 +82,7 @@ export class TaskFormComponent {
       this.taskService.addTask(data);
 
       this.resetControls();
-      // void this.router.navigate(['/task-list']);
+      void this.router.navigate(['/task-list']);
   }
 
   protected resetControls(): void {
