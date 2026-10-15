@@ -2,8 +2,8 @@ import { Component, computed, inject } from '@angular/core';
 import { TaskService } from '../../services/task.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { Task } from '../../pages/task/interfaces/task.interface';
-import { TaskComponent } from '../../pages/task/task.component';
+import { Task } from '../task/interfaces/task.interface';
+import { TaskComponent } from '../task/task.component';
 
 @Component({
   selector: 'task-details',

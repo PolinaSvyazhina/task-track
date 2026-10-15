@@ -1,5 +1,5 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
-import { Task, taskStatus } from '../pages/task/interfaces/task.interface';
+import { Task, taskStatus } from '../components/task/interfaces/task.interface';
 import { ApiService } from './api.service';
 import { catchError, finalize, of, tap } from 'rxjs';
 import { tasks } from './tasks';

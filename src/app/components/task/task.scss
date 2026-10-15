@@ -110,6 +110,38 @@
     }
   }
 
+  &__subtasks {
+    margin-bottom: 1.5rem;
+  }
+
+  &__subtasks-title {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0 0 0.75rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+  }
+
+  &__subtask-list {
+    display: grid;
+    gap: 0.5rem;
+    margin: 0;
+    padding-left: 1.25rem;
+  }
+
+  &__subtask {
+    padding-left: 0.25rem;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    white-space: pre-line;
+    overflow-wrap: anywhere;
+
+    &::marker {
+      color: var(--tui-text-secondary, #737987);
+    }
+  }
+
   &__statuses {
     min-width: 0;
     margin: 0;

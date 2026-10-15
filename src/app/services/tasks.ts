@@ -1,4 +1,4 @@
-﻿import { Task } from '../pages/task/interfaces/task.interface';
+﻿import { Task } from '../components/task/interfaces/task.interface';
 
 export const tasks: Task[] = [
     {
@@ -143,4 +143,5 @@ export const tasks: Task[] = [
                      ]
     }
 ];
+
 

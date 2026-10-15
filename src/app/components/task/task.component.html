@@ -4,7 +4,7 @@
       <span class="task__eyebrow">Задача</span>
       <div class="task__badges">
         <span class="task__badge" [attr.data-status]="task.status ?? 'todo'">
-          {{ statusLabels[task.status ?? 'todo'] }}
+          {{ task.status | customStatus }}
         </span>
         <span class="task__badge task__priority" [attr.data-priority]="task.priority">
           {{ priorityLabels[task.priority] }} приоритет
@@ -36,6 +36,19 @@
       </div>
     </dl>
 
+    @if (task.subtasks.length) {
+      <section class="task__subtasks" [attr.aria-labelledby]="'task-subtasks-' + task.id">
+        <h4 class="task__subtasks-title" [id]="'task-subtasks-' + task.id">
+          Подзадачи <span class="task__badge">{{ task.subtasks.length }}</span>
+        </h4>
+        <ul class="task__subtask-list">
+          @for (subtask of task.subtasks; track $index) {
+            <li class="task__subtask">{{ subtask }}</li>
+          }
+        </ul>
+      </section>
+    }
+
     <fieldset class="task__statuses">
       <legend>Статус задачи</legend>
       <div class="task__status-options">
@@ -50,7 +63,7 @@
               [ngModelOptions]="{ standalone: true }"
               (ngModelChange)="changeTaskStatus(task.id, $event)"
             />
-            {{ statusLabels[status] }}
+            {{ status | customStatus}}
           </label>
         }
       </div>

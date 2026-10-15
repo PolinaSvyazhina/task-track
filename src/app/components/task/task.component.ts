@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { TuiRadio } from '@taiga-ui/core';
 import { Task, taskPriority, taskStatus } from './interfaces/task.interface';
 import { DatePipe } from '@angular/common';
+import { CustomStatusPipe } from '../../pipes/custom-status.pipe';
 
 @Component({
   selector: 'task-component',
@@ -11,17 +12,14 @@ import { DatePipe } from '@angular/common';
     FormsModule,
     TuiRadio,
     DatePipe,
+    CustomStatusPipe,
   ],
   styleUrls: ['task.scss']
 })
 
 export class TaskComponent {
   public readonly taskStatuses: readonly taskStatus[] = ['todo', 'in-progress', 'done'];
-  public readonly statusLabels: Record<taskStatus, string> = {
-    todo: 'К выполнению',
-    'in-progress': 'В работе',
-    done: 'Готово',
-  };
+
   public readonly priorityLabels: Record<taskPriority, string> = {
     low: 'Низкий',
     normal: 'Обычный',

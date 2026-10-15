@@ -4,8 +4,8 @@ import { TuiButton, TuiInput } from '@taiga-ui/core';
 import { TuiDay } from '@taiga-ui/cdk';
 import { Router, RouterLink } from '@angular/router';
 import { TaskService } from '../../services/task.service';
-import { Task, taskPriority } from '../../pages/task/interfaces/task.interface';
 import { TuiInputDate } from '@taiga-ui/kit';
+import { Task, taskPriority } from '../task/interfaces/task.interface';
 
 @Component({
   selector: 'task-form',

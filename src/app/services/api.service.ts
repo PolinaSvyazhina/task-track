@@ -1,6 +1,6 @@
 import { inject, Service } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Task } from '../pages/task/interfaces/task.interface';
+import { Task } from '../components/task/interfaces/task.interface';
 
 @Service()
 export class ApiService {

@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { TuiButton } from '@taiga-ui/core';
-import { TaskComponent } from '../task/task.component';
-import { taskStatus } from '../task/interfaces/task.interface';
+import { TaskComponent } from '../../components/task/task.component';
+import { taskStatus } from '../../components/task/interfaces/task.interface';
 import { TaskService } from '../../services/task.service';
 import { Router } from '@angular/router';
 import { TaskSummaryComponent } from '../../components/task-summary/task-summary.component';
