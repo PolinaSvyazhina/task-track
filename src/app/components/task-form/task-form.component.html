@@ -1,0 +1,101 @@
+<section class="task-form" aria-labelledby="task-form-title">
+  <a class="task-form__back" routerLink="/task-list">← К списку задач</a>
+  <header class="task-form__header">
+    <p class="task-form__eyebrow">Задачи команды</p>
+    <h2 id="task-form-title">Создать задачу</h2>
+    <p>Опишите результат и укажите детали, чтобы команда могла приступить к работе.</p>
+  </header>
+
+  <div class="task-form__card">
+    <section class="task-form__section task-form__main" aria-labelledby="task-main-title">
+      <h3 id="task-main-title">Основная информация</h3>
+      <div class="task-form__field">
+        <label for="task-title">Название задачи <span class="task-form__required" aria-hidden="true">*</span></label>
+        <tui-textfield>
+          <input id="task-title" tuiInput [formControl]="title" required maxlength="100"
+            placeholder="Например, подготовить макет главной страницы"
+            aria-describedby="task-title-hint" [attr.aria-invalid]="title.invalid && title.touched" />
+        </tui-textfield>
+        <div class="task-form__hint-row">
+          <p id="task-title-hint" class="task-form__hint" [class.task-form__hint_error]="title.invalid && title.touched">
+            @if (title.invalid && title.touched) {
+              Введите название длиной от 3 до 100 символов.
+            } @else {
+              Кратко сформулируйте, что нужно сделать.
+            }
+          </p>
+          <span class="task-form__counter">{{ title.value.length }}/100</span>
+        </div>
+      </div>
+      <div class="task-form__field">
+        <label for="task-description">Описание</label>
+        <textarea id="task-description" class="task-form__control task-form__textarea"
+          [formControl]="description" rows="6"
+          placeholder="Добавьте контекст, требования и ожидаемый результат"></textarea>
+      </div>
+    </section>
+
+    <section class="task-form__section task-form__details" aria-labelledby="task-details-title">
+      <h3 id="task-details-title">Детали задачи</h3>
+      <p class="task-form__hint">Приоритет по умолчанию — обычный. Исполнителя и срок можно не указывать.</p>
+      <div class="task-form__field">
+        <label for="task-priority">Приоритет</label>
+        <select id="task-priority" class="task-form__control" [formControl]="priority">
+          <option value="low">Низкий</option>
+          <option value="normal">Обычный</option>
+          <option value="high">Высокий</option>
+        </select>
+      </div>
+      <div class="task-form__field">
+        <label for="task-assignee">Исполнитель</label>
+        <tui-textfield>
+          <input id="task-assignee" tuiInput [formControl]="assigneeId" placeholder="Идентификатор исполнителя" />
+        </tui-textfield>
+      </div>
+      <div class="task-form__field">
+        <label for="task-due-date">Срок выполнения</label>
+        <tui-textfield>
+          <input id="task-due-date" tuiInputDate [formControl]="dueDate" />
+          <tui-calendar *tuiDropdown />
+        </tui-textfield>
+      </div>
+    </section>
+
+    <section class="task-form__section task-form__subtasks" aria-labelledby="task-subtasks-title">
+      <h3 id="task-subtasks-title">Подзадачи <span class="task-form__optional">необязательно</span></h3>
+      <p class="task-form__hint">Разбейте задачу на небольшие шаги.</p>
+      @if (subtasks().length) {
+        <ul class="task-form__subtask-list" aria-label="Подзадачи">
+          @for (subtask of subtasks(); track $index) {
+            <li class="task-form__subtask-item">
+              <span>{{ subtask }}</span>
+              <button class="task-form__subtask-remove" type="button"
+                [attr.aria-label]="'Удалить подзадачу: ' + subtask"
+                (click)="removeSubTask($index)">
+                <span aria-hidden="true">×</span>
+              </button>
+            </li>
+          }
+        </ul>
+      }
+      <div class="task-form__subtask-row">
+        <div class="task-form__field">
+          <label for="task-subtask">Название подзадачи</label>
+          <tui-textfield>
+            <input id="task-subtask" tuiInput [formControl]="newSubtask" placeholder="Что нужно сделать первым?"
+              (keydown.enter)="$event.preventDefault(); addSubTask()" />
+          </tui-textfield>
+        </div>
+        <button tuiButton appearance="secondary" size="m" type="button"
+          [disabled]="!newSubtask.value.trim()" (click)="addSubTask()">Добавить</button>
+      </div>
+    </section>
+
+    <footer class="task-form__actions">
+      <div class="task-form__buttons">
+        <button tuiButton type="button" size="m" (click)="resetControls()">Отмена</button>
+        <button tuiButton size="m" type="button" (click)="addTask()" [disabled]="title.invalid || loading()">Создать задачу</button>
+      </div>
+    </footer>
+  </div>
+</section>
