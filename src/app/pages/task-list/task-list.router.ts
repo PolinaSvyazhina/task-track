@@ -11,14 +11,16 @@ export const TASK_List_ROUTER: Routes = [
   },
   {
     path: 'tasks/:id',
-    component: TaskDetailsComponent
+    loadComponent:() => import('../../components/task-details/task-details.component').then(module => module.TaskDetailsComponent),
   },
   {
     path: 'about',
-    component: AboutComponent,
+    loadComponent: () => import('../../components/about/about.component')
+      .then(module => module.AboutComponent)
   },
   {
     path:'task-form',
-    loadComponent: () => import('../../components/task-form/task-form.component').then(module => module.TaskFormComponent),
+    loadComponent: () => import('../../components/task-form/task-form.component')
+      .then(module => module.TaskFormComponent),
   }
 ]
