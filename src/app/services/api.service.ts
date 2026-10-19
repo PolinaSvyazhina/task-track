@@ -1,5 +1,5 @@
 import { inject, Service } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Task } from '../components/task/interfaces/task.interface';
 
 @Service()

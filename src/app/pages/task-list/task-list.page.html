@@ -1,23 +1,32 @@
 <section class="task-list" aria-labelledby="task-list-title" [attr.aria-busy]="loader()">
   <header class="task-list__header">
-    <div>
+    <div class="task-list__intro">
       <p class="task-list__eyebrow">Рабочее пространство</p>
       <div class="task-list__heading">
         <h2 id="task-list-title">Задачи команды</h2>
       </div>
       <p class="task-list__description">Следите за сроками и обновляйте статус задач.</p>
     </div>
-    <tui-textfield
-      #m
-      iconStart="@tui.search"
-      tuiTextfieldSize="m">
-      <input placeholder="Поиск" tuiInput>
-    </tui-textfield>
     <button tuiButton size="m" type="button" class="task-list__add" (click)="addExampleTask()">
       <span aria-hidden="true">+</span>
       Добавить задачу
     </button>
     <task-summary/>
+    <div class="task-list__search" role="search" aria-label="Поиск задач">
+      <label class="task-list__search-label" for="task-search">Поиск задач</label>
+      <tui-textfield
+        iconStart="@tui.search"
+        tuiTextfieldSize="m"
+        [tuiTextfieldCleaner]="true">
+        <input
+          id="task-search"
+          [formControl]="search"
+          placeholder="Название или описание"
+          aria-describedby="task-search-hint"
+          tuiInput>
+      </tui-textfield>
+      <p id="task-search-hint" class="task-list__search-hint">Список обновляется при вводе</p>
+    </div>
   </header>
 
   @if (loader()) {
@@ -56,6 +65,11 @@
           </li>
         }
       </ul>
+    } @else if (searchQuery()) {
+      <div class="task-list__state" role="status">
+        <h3>Ничего не найдено</h3>
+        <p>Измените поисковый запрос или очистите поле поиска.</p>
+      </div>
     } @else {
       <div class="task-list__state">
         <h3>Задач пока нет</h3>
